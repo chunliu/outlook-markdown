@@ -1,41 +1,22 @@
 import * as React from "react";
-import { Button, ButtonType } from "office-ui-fabric-react";
-import Header from "./Header";
-import HeroList, { HeroListItem } from "./HeroList";
+import { PrimaryButton, TextField } from "office-ui-fabric-react";
 import Progress from "./Progress";
 /* global Button, Header, HeroList, HeroListItem, Progress */
 
 export default class App extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      listItems: []
-    };
-  }
-
-  componentDidMount() {
-    this.setState({
-      listItems: [
-        {
-          icon: "Ribbon",
-          primaryText: "Achieve more with Office integration"
-        },
-        {
-          icon: "Unlock",
-          primaryText: "Unlock features and functionality"
-        },
-        {
-          icon: "Design",
-          primaryText: "Create and visualize like a pro"
-        }
-      ]
-    });
+  constructor(props) {
+    super(props);
+    this.state = {mdText: ''};
   }
 
   click = async () => {
     /**
      * Insert your Outlook code here
      */
+  };
+
+  onMarkdownChange = async (event, newValue) => {
+    this.setState({mdText: newValue});
   };
 
   render() {
@@ -48,21 +29,18 @@ export default class App extends React.Component {
     }
 
     return (
-      <div className="ms-welcome">
-        <Header logo="assets/logo-filled.png" title={this.props.title} message="Welcome" />
-        <HeroList message="Discover what Office Add-ins can do for you today!" items={this.state.listItems}>
-          <p className="ms-font-l">
-            Modify the source files, then click <b>Run</b>.
-          </p>
-          <Button
-            className="ms-welcome__action"
-            buttonType={ButtonType.hero}
+      <div className="ms-welcome__main">
+
+          <TextField label="Input markdown here" multiline autoAdjustHeight
+            onChange={this.onMarkdownChange} />
+
+          <PrimaryButton
             iconProps={{ iconName: "ChevronRight" }}
             onClick={this.click}
           >
-            Run
-          </Button>
-        </HeroList>
+            Insert
+          </PrimaryButton>
+
       </div>
     );
   }
