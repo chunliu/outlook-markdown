@@ -10,11 +10,6 @@
      margin: 0;
      padding: 0;
  }
- 
- ul {
-     margin: 0;
-     padding: 0;
- }
 
  .ms-welcome__main {
     flex-wrap: nowrap;
@@ -22,7 +17,18 @@
     flex: 1 0 0;
     padding: 10px 20px;
  }
- 
-b {
-    font-weight: bold;
-}
+
+ .preview-panel {
+    width: 280px;
+    min-height: 60px;
+    word-wrap: break-word;
+    white-space: normal;
+ }
+
+ .markdowntf {
+     width: 280px;
+ }
+
+ .insertButton {
+     margin-top: 20px;
+ }

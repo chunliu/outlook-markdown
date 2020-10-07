@@ -31,7 +31,9 @@
     "es6-promise": "^4.2.8",
     "office-ui-fabric-react": "^7.10.0",
     "react": "^16.8.2",
-    "react-dom": "^16.10.2"
+    "react-border-wrapper": "^1.0.3",
+    "react-dom": "^16.10.2",
+    "showdown": "^1.9.1"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",

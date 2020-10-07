@@ -1,22 +1,38 @@
 import * as React from "react";
-import { PrimaryButton, TextField } from "office-ui-fabric-react";
+import { PrimaryButton, TextField, Label, Stack } from "office-ui-fabric-react";
+import * as Showdown from "showdown";
+import BorderWrapper from "react-border-wrapper";
 import Progress from "./Progress";
 /* global Button, Header, HeroList, HeroListItem, Progress */
 
+const converter = new Showdown.Converter();
+
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {mdText: ''};
-  }
+  state = {mdText: '', htmlText: ''};
 
   click = async () => {
-    /**
-     * Insert your Outlook code here
-     */
+    var item = Office.context.mailbox.item;
+    item.body.setSelectedDataAsync(
+      this.state.htmlText,
+      {
+        coercionType: Office.CoercionType.Html, 
+        asyncContext: { var3: 1, var4: 2 } 
+      },
+      function (asyncResult) {
+          if (asyncResult.status == Office.AsyncResultStatus.Failed){
+              console.log(asyncResult.error.message);
+          }
+          else {
+          }
+      });
   };
 
   onMarkdownChange = async (event, newValue) => {
-    this.setState({mdText: newValue});
+    console.log("On Change: " + newValue);
+    // var converter = new Showdown.Converter();
+    var html = converter.makeHtml(newValue);
+    console.log("On Change: " + html);
+    this.setState({mdText: newValue, htmlText: html});
   };
 
   render() {
@@ -31,11 +47,39 @@ export default class App extends React.Component {
     return (
       <div className="ms-welcome__main">
 
-          <TextField label="Input markdown here" multiline autoAdjustHeight
+        <BorderWrapper
+        borderColour="#00bcf1"
+        borderWidth="1px"
+        borderRadius="15px"
+        borderType="solid"
+        innerPadding="4px"
+        topElement={<Label>Markdown</Label>}
+        topPosition={0.1}
+        topOffset="15px"
+        topGap="4px"
+        >
+          <TextField multiline autoAdjustHeight borderless className="markdowntf" resizable={false}
             onChange={this.onMarkdownChange} />
+        </BorderWrapper>
 
-          <PrimaryButton
+        <BorderWrapper
+        borderColour="#00bcf1"
+        borderWidth="1px"
+        borderRadius="15px"
+        borderType="solid"
+        innerPadding="4px"
+        topElement={<Label>Preview</Label>}
+        topPosition={0.1}
+        topOffset="15px"
+        topGap="4px"
+        >
+          <div className="preview-panel"
+            dangerouslySetInnerHTML={{__html: this.state.htmlText}}></div>
+        </BorderWrapper>
+
+          <PrimaryButton className="insertButton"
             iconProps={{ iconName: "ChevronRight" }}
+            disabled={this.state.htmlText === ""}
             onClick={this.click}
           >
             Insert
