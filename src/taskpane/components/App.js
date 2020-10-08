@@ -8,7 +8,7 @@ import Progress from "./Progress";
 const converter = new Showdown.Converter();
 
 export default class App extends React.Component {
-  state = {mdText: '', htmlText: ''};
+  state = {htmlText: ''};
 
   click = async () => {
     var item = Office.context.mailbox.item;
@@ -29,10 +29,9 @@ export default class App extends React.Component {
 
   onMarkdownChange = async (event, newValue) => {
     console.log("On Change: " + newValue);
-    // var converter = new Showdown.Converter();
     var html = converter.makeHtml(newValue);
     console.log("On Change: " + html);
-    this.setState({mdText: newValue, htmlText: html});
+    this.setState({htmlText: html});
   };
 
   render() {
