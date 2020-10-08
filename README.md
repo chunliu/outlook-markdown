@@ -9,9 +9,13 @@ This is an add-in for Outlook which can help you edit the markdown, covert it to
 
 ## How to use
 
+The add-in works for the compose scenario.
+
 ![How to use](olmd.gif)
 
 ## Libraries
+
+The following libraries are used in the add-in.
 
 - [showdown](https://github.com/showdownjs/showdown)
 - [React Border Wrapper](https://github.com/Metroxe/react-border-wrapper)
