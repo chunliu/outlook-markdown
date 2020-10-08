@@ -40,7 +40,7 @@ export default class App extends React.Component {
 
     if (!isOfficeInitialized) {
       return (
-        <Progress title={title} logo="assets/logo-filled.png" message="Please sideload your addin to see app body." />
+        <Progress title={title} logo="assets/logo-filled.png" message="Loading..." />
       );
     }
 

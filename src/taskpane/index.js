@@ -10,7 +10,7 @@ initializeIcons();
 
 let isOfficeInitialized = false;
 
-const title = "Contoso Task Pane Add-in";
+const title = "Insert Markdown Add-in";
 
 const render = Component => {
   ReactDOM.render(
