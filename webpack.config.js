@@ -5,8 +5,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require('webpack');
 
-const urlDev="https://localhost:3000/";
-const urlProd="https://www.contoso.com/"; // CHANGE THIS TO YOUR PRODUCTION DEPLOYMENT LOCATION
+const urlDev="https://localhost:3000";
+const urlProd="https://olmd.chunliu.me";
 
 module.exports = async (env, options)  => {
   const dev = options.mode === "development";
@@ -60,7 +60,7 @@ module.exports = async (env, options)  => {
           from: "./src/taskpane/taskpane.css"
         },
         {
-          to: "[name]." + buildType + ".[ext]",
+          to: "[name]." + "[ext]",
           from: "manifest*.xml",
           transform(content) {
             if (dev) {
