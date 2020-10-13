@@ -65,8 +65,8 @@ module.exports = async (env, options)  => {
           toType: "file",
         },
         {
-          from: "assets/*",
-          to: "assets/"
+          from: "assets",
+          to: "assets/",
         },
         {
           to: "[name]." + "[ext]",
