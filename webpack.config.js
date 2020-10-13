@@ -60,6 +60,11 @@ module.exports = async (env, options)  => {
           from: "./src/taskpane/taskpane.css"
         },
         {
+          from: "CNAME",
+          to: "CNAME",
+          toType: "file",
+        },
+        {
           to: "[name]." + "[ext]",
           from: "manifest*.xml",
           transform(content) {
