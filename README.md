@@ -1,4 +1,6 @@
-# ![logo](assets/icon-32.png) Markdown in Outlook 
+# ![logo](assets/icon-32.png) Markdown in Outlook
+
+![Release](https://github.com/chunliu/outlook-markdown/workflows/Release/badge.svg)
 
 This is an add-in for Outlook which can help you edit the markdown, covert it to html and insert it to the email body.
 
