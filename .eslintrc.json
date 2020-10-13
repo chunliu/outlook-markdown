@@ -10,8 +10,7 @@
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
-    },
-    "project": "./tsconfig.json"
+    }
   },
   "extends": [
     "plugin:office-addins/react"

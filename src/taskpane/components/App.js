@@ -1,5 +1,5 @@
 import * as React from "react";
-import { PrimaryButton, TextField, Label, Stack } from "office-ui-fabric-react";
+import { PrimaryButton, DefaultButton, TextField, Label, Stack } from "office-ui-fabric-react";
 import Showdown from "showdown";
 import BorderWrapper from "react-border-wrapper";
 import Progress from "./Progress";
@@ -7,9 +7,9 @@ import Progress from "./Progress";
 const converter = new Showdown.Converter();
 
 export default class App extends React.Component {
-  state = {htmlText: ''};
+  state = {markdown: '', htmlText: ''};
 
-  click = async () => {
+  clickInsert = async () => {
     var item = Office.context.mailbox.item;
     item.body.setSelectedDataAsync(
       this.state.htmlText,
@@ -25,11 +25,15 @@ export default class App extends React.Component {
       });
   };
 
+  clickClear = async () => {
+    this.setState({ markdown: '', htmlText: '' });
+  }
+
   onMarkdownChange = async (event, newValue) => {
     console.log("On Change: " + newValue);
     var html = converter.makeHtml(newValue);
     console.log("On Change: " + html);
-    this.setState({htmlText: html});
+    this.setState({markdown: newValue, htmlText: html});
   };
 
   render() {
@@ -40,6 +44,8 @@ export default class App extends React.Component {
         <Progress title={title} logo="assets/logo-filled.png" message="Loading..." />
       );
     }
+
+    const stackTokens = { childrenGap: 20 };
 
     return (
       <div className="ms-welcome__main">
@@ -56,6 +62,7 @@ export default class App extends React.Component {
           topGap="4px"
         >
           <TextField multiline autoAdjustHeight borderless className="markdowntf" resizable={false}
+            value={this.state.markdown}
             onChange={this.onMarkdownChange} />
         </BorderWrapper>
 
@@ -74,11 +81,15 @@ export default class App extends React.Component {
             dangerouslySetInnerHTML={{__html: this.state.htmlText}}></div>
         </BorderWrapper>
 
-        <PrimaryButton className="insertButton"
-          iconProps={{ iconName: "ChevronRight" }}
-          disabled={this.state.htmlText === ""}
-          onClick={this.click}
-        >Insert</PrimaryButton>
+        <Stack horizontal tokens={stackTokens} className="insertButton">
+          <PrimaryButton text="Insert"
+            iconProps={{ iconName: "ChevronRight" }}
+            disabled={this.state.htmlText === ""}
+            onClick={this.clickInsert} />
+          <DefaultButton text="Clear" iconProps={{ iconName: "Clear" }} 
+            disabled={this.state.htmlText === ""}
+            onClick={this.clickClear} />
+        </Stack>
 
       </div>
     );
