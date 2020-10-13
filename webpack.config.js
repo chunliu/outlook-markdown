@@ -65,6 +65,10 @@ module.exports = async (env, options)  => {
           toType: "file",
         },
         {
+          from: "assets/*",
+          to: "assets/"
+        },
+        {
           to: "[name]." + "[ext]",
           from: "manifest*.xml",
           transform(content) {
