@@ -4,18 +4,55 @@ import Showdown from "showdown";
 import BorderWrapper from "react-border-wrapper";
 import Progress from "./Progress";
 
-const converter = new Showdown.Converter();
+const preStyle = "font-family: Consolas,Courier,monospace;\
+  font-size: 85%;\
+  background-color: #f6f8fa; \
+  display: block; \
+  line-height: 1.5; \
+  overflow: auto; \
+  padding: 10px; \
+  border-radius: 6px; \
+  word-break: normal; \
+  border-style: solid; \
+  border-width: 1px; \
+  border-color: #a19f9d;";
+
+const codeStyle = "font-family:Consolas,Courier,monospace;\
+  font-size: 85%;\
+  background-color: #f6f8fa;\
+  border-radius: 3px;\
+  padding: 2px 4px;\
+  margin: 0;\
+  border-style: solid; \
+  border-width: 1px; \
+  border-color: #a19f9d;";
+
+const PreCodeExtension = function () {
+  var pre = {
+      type: 'output',
+      regex: new RegExp(`<pre.*><code.*>`, 'g'),
+      replace: `<pre style="${preStyle}"><code>`
+  }; 
+  var code = {
+      type: 'output',
+      regex: new RegExp(`(?<!<pre.*>)<code>`, 'g'), // only decorate if <code> is not part of <pre>.
+      replace: `<code style="${codeStyle}">`
+  };
+
+  return [pre, code];
+}
+
+const converter = new Showdown.Converter({ extensions: PreCodeExtension() });
 
 export default class App extends React.Component {
   state = {markdown: '', htmlText: ''};
 
   clickInsert = async () => {
     var item = Office.context.mailbox.item;
+
     item.body.setSelectedDataAsync(
       this.state.htmlText,
-      {
-        coercionType: Office.CoercionType.Html
-      },
+      { coercionType: Office.CoercionType.Html },
       function (asyncResult) {
           if (asyncResult.status == Office.AsyncResultStatus.Failed){
               console.log(asyncResult.error.message);
