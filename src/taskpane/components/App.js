@@ -30,19 +30,25 @@ const codeStyle = "font-family:Consolas,Courier,monospace;\
 const PreCodeExtension = function () {
   var pre = {
       type: 'output',
-      regex: new RegExp(`<pre.*><code.*>`, 'g'),
-      replace: `<pre style="${preStyle}"><code>`
+      regex: new RegExp(`<pre>`, 'g'),
+      replace: `<pre style="${preStyle}">`
   }; 
   var code = {
       type: 'output',
-      regex: new RegExp(`(?<!<pre.*>)<code>`, 'g'), // only decorate if <code> is not part of <pre>.
+      regex: new RegExp(`(?<!<pre.*>)<code>`, 'g'), // only decorate if <code> is not part of <pre>. lookbehind doesn't work on desktop.
       replace: `<code style="${codeStyle}">`
   };
 
   return [pre, code];
 }
 
-const converter = new Showdown.Converter({ extensions: PreCodeExtension() });
+let converter;
+if (Office.context != null && Office.context != undefined && Office.context.platform == Office.PlatformType.OfficeOnline) {
+  converter = new Showdown.Converter({ extensions: PreCodeExtension() });
+} else {
+  // CSS styles don't work well on PC. So don't enable it.
+  converter = new Showdown.Converter();
+}
 
 export default class App extends React.Component {
   state = {markdown: '', htmlText: ''};
