@@ -43,15 +43,19 @@ const PreCodeExtension = function () {
 }
 
 let converter;
-if (Office.context != null && Office.context != undefined && Office.context.platform == Office.PlatformType.OfficeOnline) {
-  converter = new Showdown.Converter({ extensions: PreCodeExtension() });
-} else {
-  // CSS styles don't work well on PC. So don't enable it.
-  converter = new Showdown.Converter();
-}
 
 export default class App extends React.Component {
   state = {markdown: '', htmlText: ''};
+
+  componentDidMount() {
+    // console.log(`componentDidMount: ${Office.context.diagnostics.platform}`)
+    if (Office.context.diagnostics.platform === Office.PlatformType.OfficeOnline) {
+      converter = new Showdown.Converter({ extensions: PreCodeExtension() });
+    } else {
+      // CSS styles don't work well on PC. So don't enable it.
+      converter = new Showdown.Converter();
+    }
+  }
 
   clickInsert = async () => {
     var item = Office.context.mailbox.item;
