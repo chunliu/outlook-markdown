@@ -28,18 +28,19 @@ const codeStyle = "font-family:Consolas,Courier,monospace;\
   border-color: #a19f9d;";
 
 const PreCodeExtension = function () {
-  var pre = {
-      type: 'output',
-      regex: new RegExp(`<pre.*><code.*>`, 'g'),
-      replace: `<pre style="${preStyle}"><code>`
-  }; 
-  var code = {
-      type: 'output',
-      regex: new RegExp(`(?<!<pre.*>)<code>`, 'g'), // only decorate if <code> is not part of <pre>.
-      replace: `<code style="${codeStyle}">`
+  // Using this workaround because the app running in the Outlook client 
+  // doesn't support regex lookbehind
+  const precode = {
+    type: 'output',
+    filter: function(text) {
+      // console.log(`extension text: ${text}`);
+      text = text.replace(new RegExp(`((?!<pre>).{5}|^.{0,4})<code>`, 'g'), `$1<code style="${codeStyle}">`);
+      text = text.replace(new RegExp(`<pre><code>`, 'g'), `<pre style="${preStyle}"><code>`);
+      return text;
+    }
   };
 
-  return [pre, code];
+  return [precode];
 }
 
 const converter = new Showdown.Converter({ extensions: PreCodeExtension() });
