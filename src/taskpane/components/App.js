@@ -49,11 +49,11 @@ export default class App extends React.Component {
 
   componentDidMount() {
     // console.log(`componentDidMount: ${Office.context.diagnostics.platform}`)
-    if (Office.context.diagnostics.platform === Office.PlatformType.OfficeOnline) {
-      converter = new Showdown.Converter({ extensions: PreCodeExtension() });
-    } else {
+    if (Office.context.diagnostics.platform === Office.PlatformType.PC) {
       // CSS styles don't work well on PC. So don't enable it.
       converter = new Showdown.Converter();
+    } else {
+      converter = new Showdown.Converter({ extensions: PreCodeExtension() });
     }
   }
 
