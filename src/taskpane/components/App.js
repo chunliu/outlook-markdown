@@ -55,6 +55,7 @@ export default class App extends React.Component {
     } else {
       converter = new Showdown.Converter({ extensions: PreCodeExtension() });
     }
+    converter.setOption('tables', 'true'); // Enable support for tables syntax.
   }
 
   clickInsert = async () => {
